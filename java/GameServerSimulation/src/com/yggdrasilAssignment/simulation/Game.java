@@ -36,7 +36,7 @@ public class Game {
                 AdditionalReward.Ten,
                 AdditionalReward.Five,
                 AdditionalReward.SecondChance);
-        Collections.shuffle(additionalRewards);
+        Collections.shuffle(additionalRewards, new SecureRandom());
         _additionalRewards = new LinkedList<>(additionalRewards);
     }
 
