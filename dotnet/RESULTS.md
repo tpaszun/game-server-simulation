@@ -1,3 +1,4 @@
+```
 Average score by probability
 ============================
 Total games: 320805
@@ -28,3 +29,4 @@ Played 8500000 games, average score: 74,6358888235294
 Played 9000000 games, average score: 74,6358505555555
 Played 9500000 games, average score: 74,6322968421053
 Average score: 74,6342185
+```
