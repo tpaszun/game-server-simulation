@@ -54,7 +54,7 @@ class MathUtils {
         return x > 0 ? x : -x;
     }
 
-    static long utilGcd(long num1, long num2)
+    public static long utilGcd(long num1, long num2)
     {
         long tmp;
         num1 = abs(num1);
