@@ -17,7 +17,7 @@ public class Main {
         System.out.println();
         System.out.println("Average score by simulation");
         System.out.println("===========================");
-        int gamesCount = 150_000_000;
+        int gamesCount = 10_000_000;
         Dictionary<Integer, Long> simulationStats = Simulation(gamesCount);
         System.out.println();
         System.out.println();
