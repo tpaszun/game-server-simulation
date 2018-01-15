@@ -39,7 +39,7 @@ Simulation sum: 1/1
 Maximal error: 0,830575029296273%
 ```
 
-#150M games in simulation
+# 150M games in simulation
 
 ```
 Average score by probability
