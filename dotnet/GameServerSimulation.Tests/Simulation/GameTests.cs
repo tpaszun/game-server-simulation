@@ -16,5 +16,6 @@ namespace GameServerSimulation.Tests.Simulation
                 Assert.InRange(score, 0, 185);
             }
         }
+
     }
 }

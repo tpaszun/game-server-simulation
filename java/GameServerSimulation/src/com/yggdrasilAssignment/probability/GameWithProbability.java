@@ -49,6 +49,6 @@ public class GameWithProbability {
     public String toString() {
         return String.format("Probability: %s, Moves: %s",
                 _probability.toString(),
-                String.join(", ", _moves.stream().map(m -> m.toString()).collect(Collectors.toList())));
+                String.join(", ", _moves.stream().map(Object::toString).collect(Collectors.toList())));
     }
 }

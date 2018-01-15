@@ -40,6 +40,17 @@ public class Game {
         _additionalRewards = new LinkedList<>(additionalRewards);
     }
 
+    public Game(Collection<Reward> rewards, Collection<AdditionalReward> additionalRewards) {
+
+        List<Reward> rewardList = new ArrayList<>(rewards);
+        Collections.shuffle(rewardList, new SecureRandom());
+        _boxes = new LinkedList<>(rewardList);
+
+        List<AdditionalReward> additionalRewardList = new ArrayList<>(additionalRewards);
+        Collections.shuffle(additionalRewardList, new SecureRandom());
+        _additionalRewards = new LinkedList<>(additionalRewardList);
+    }
+
     public int Play() {
         OpenBoxes();
         SelectAdditionalReward();

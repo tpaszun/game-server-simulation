@@ -56,5 +56,29 @@ namespace GameServerSimulation.Tests.Probability
 
             Assert.Equal(new Fraction(1, 2), z);
         }
+
+        [Fact]
+        public void Reverse()
+        {
+            var x = new Fraction(2, 3);
+
+            Assert.Equal(new Fraction(3, 2), x.Reverse());
+        }
+
+        [Fact]
+        public void Division()
+        {
+            var x = new Fraction(3, 5);
+
+            Assert.Equal(new Fraction(3, 2), x.Divide(new Fraction(2, 5)));
+        }
+
+        [Fact]
+        public void ZeroReduction()
+        {
+            var x = new Fraction(0, 3);
+            Assert.Equal(0, x.Numerator);
+            Assert.Equal(1, x.Denominator);
+        }
     }
 }

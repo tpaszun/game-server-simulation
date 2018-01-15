@@ -14,13 +14,13 @@ namespace GameServerSimulation.Tests.Probability
             Assert.Empty(game.Moves);
             Assert.Equal(new Fraction(1, 1), game.Probability);
 
-            var firstMove = new RewardMove(Reward.Hundred);
-            game.Add(firstMove, new Fraction(1, 12));
+            var firstMove = new RewardMove(Reward.Hundred, new Fraction(1, 12));
+            game.Add(firstMove);
             Assert.Equal(new Fraction(1, 12), game.Probability);
             Assert.Contains(firstMove, game.Moves);
 
-            var secondMove = new RewardMove(Reward.Twenty);
-            game.Add(secondMove, new Fraction(1, 6));
+            var secondMove = new RewardMove(Reward.Twenty, new Fraction(1, 6));
+            game.Add(secondMove);
             Assert.Equal(new Fraction(1, 72), game.Probability);
             Assert.Contains(secondMove, game.Moves);
         }

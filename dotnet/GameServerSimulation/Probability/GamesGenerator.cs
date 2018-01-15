@@ -11,6 +11,10 @@ namespace GameServerSimulation.Probability
 
         private List<GameWithProbability> _games = new List<GameWithProbability>();
 
+        public Fraction AverageScore => Games
+                        .Select(g => g.Probability.Multiply(new Fraction(g.Moves.GetGameScore(), 1)))
+                        .SumFractions();
+
         public void Generate()
         {
             var boxes = new Boxes(new List<Box> {
@@ -42,14 +46,14 @@ namespace GameServerSimulation.Probability
             {
                 var game = new GameWithProbability(currentGame);
                 var moveProbability = new Fraction(box.Count, boxes.CountBoxes());
-                game.Add(new RewardMove(box.Reward), moveProbability);
+                game.Add(new RewardMove(box.Reward, moveProbability));
 
                 var newBoxes = new Boxes(boxes);
                 newBoxes.RemoveBox(box.Reward);
 
                 if (box.Reward == Reward.GameOver && !HasExtraLife(game.Moves))
                 {
-                    HandleAdditionalRewards(game, boxes, additionalRewards);
+                    HandleAdditionalRewards(game, newBoxes, additionalRewards);
                     continue;
                 }
 
@@ -62,7 +66,7 @@ namespace GameServerSimulation.Probability
             foreach (var additionalReward in additionalRewards)
             {
                 var game = new GameWithProbability(currentGame);
-                game.Add(new AdditionalRewardMove(additionalReward), new Fraction(1, additionalRewards.Count));
+                game.Add(new AdditionalRewardMove(additionalReward, new Fraction(1, additionalRewards.Count)));
 
                 if (additionalReward == AdditionalReward.SecondChance)
                 {
@@ -80,12 +84,26 @@ namespace GameServerSimulation.Probability
 
         private bool HasExtraLife(IEnumerable<Move> moves)
         {
-            var rewards = moves
-                .Where(m => m is RewardMove)
-                .Cast<RewardMove>()
-                .Select(rm => rm.Reward);
+            var extraLife = moves
+                .Select(m => {
+                    if (m is RewardMove)
+                        switch(((RewardMove)m).Reward) {
+                            case Reward.ExtraLife:
+                                return 1;
+                            case Reward.GameOver:
+                                return -1;
+                        }
+                    else if (m is AdditionalRewardMove)
+                        switch(((AdditionalRewardMove)m).AdditionalReward) {
+                            case AdditionalReward.SecondChance:
+                                return 1;
+                        }
 
-            return rewards.Contains(Reward.ExtraLife) && rewards.Count(r => r == Reward.GameOver) < 2;
+                    return 0;
+                })
+                .Sum();
+
+            return extraLife >= 0;
         }
     }
 }

@@ -24,23 +24,27 @@ namespace GameServerSimulation.Probability
             _moves = new List<Move>(game.Moves);
         }
 
-        public void Add(Move move, Fraction probability)
+        public void Add(Move move)
         {
             _moves.Add(move);
-            Probability = Probability.Multiply(probability);
+            Probability = Probability.Multiply(move.Probability);
         }
 
         public override string ToString()
         {
-            var movesStrings = _moves.Select(move =>
-            {
-                if (move is RewardMove)
-                    return ((RewardMove)move).Reward.ToString();
-                else
-                    return ((AdditionalRewardMove)move).AdditionalReward.ToString();
-            });
+            var movesStrings = _moves.Select(move => move.ToString());
             var moves = string.Join(", ", movesStrings);
-            return $"Probability: {Probability}, Moves: {moves}";
+            return $"Probability: {Probability}, Score: {Moves.GetGameScore()}, Moves: {moves}";
+        }
+
+        public string GameKey
+        {
+            get
+            {
+                var movesStrings = _moves.Select(move => move.MoveReward);
+                var moves = string.Join(", ", movesStrings);
+                return $"Score: {Moves.GetGameScore()}, Moves: {moves}";
+            }
         }
     }
 }

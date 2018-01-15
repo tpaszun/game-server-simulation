@@ -48,7 +48,7 @@ public class GameGenerator {
 
             if (box.getReward() == Reward.GameOver && !HasExtraLife(game.getMoves()))
             {
-                HandleAdditionalRewards(game, boxes, additionalRewards);
+                HandleAdditionalRewards(game, newBoxes, additionalRewards);
                 continue;
             }
 
@@ -65,7 +65,7 @@ public class GameGenerator {
 
             if (additionalReward == AdditionalReward.SecondChance)
             {
-                Collection newAdditionalRewards = new Vector<>(additionalRewards);
+                Collection<AdditionalReward> newAdditionalRewards = new ArrayList<>(additionalRewards);
                 newAdditionalRewards.remove(additionalReward);
 
                 Generate(game, boxes, newAdditionalRewards);
@@ -79,9 +79,19 @@ public class GameGenerator {
 
     private boolean HasExtraLife(Collection<Move> moves)
     {
-        boolean hasExtraLife = moves.stream().anyMatch(m -> m instanceof RewardMove && ((RewardMove)m).getReward() == Reward.ExtraLife);
-        long gameOverCount = moves.stream().filter(m -> m instanceof RewardMove && ((RewardMove)m).getReward() == Reward.GameOver).count();
-
-        return hasExtraLife && gameOverCount < 2;
+        return moves.stream().map(m -> {
+           if (m instanceof RewardMove) {
+               switch(((RewardMove)m).getReward()) {
+                   case ExtraLife: return 1;
+                   case GameOver: return -1;
+               }
+           }
+           else if (m instanceof AdditionalRewardMove) {
+               switch(((AdditionalRewardMove)m).getAdditionalReward()) {
+                   case SecondChance: return 1;
+               }
+           }
+           return 0;
+        }).reduce(0, Integer::sum) >= 0;
     }
 }

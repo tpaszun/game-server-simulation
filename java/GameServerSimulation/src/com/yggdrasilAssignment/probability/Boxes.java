@@ -4,6 +4,7 @@ import com.yggdrasilAssignment.Reward;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Boxes implements Iterable<Box> {
@@ -14,14 +15,18 @@ public class Boxes implements Iterable<Box> {
     }
 
     public Boxes(Boxes other) {
-        _boxes = other._boxes.stream().map(b -> new Box(b)).collect(Collectors.toList());
+        _boxes = other._boxes.stream().map(Box::new).collect(Collectors.toList());
     }
 
     public void removeBox(Reward reward) {
-        Box box = _boxes.stream()
+        Optional<Box> boxMaybe = _boxes.stream()
                 .filter(b -> b.getReward() == reward)
-                .findFirst()
-                .get();
+                .findFirst();
+
+        if (!boxMaybe.isPresent())
+            return; // ToDo: Should throw fatal exception and report
+
+        Box box = boxMaybe.get();
 
         if (box.getCount() > 1) {
             box.decrementCount();

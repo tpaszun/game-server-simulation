@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 
 namespace GameServerSimulation.Probability
 {
@@ -18,27 +17,43 @@ namespace GameServerSimulation.Probability
 
         public Fraction Add(Fraction second)
         {
-            var result =  new Fraction((Numerator * second.Denominator) + (second.Numerator * Denominator), Denominator * second.Denominator);
+            var result = new Fraction((Numerator * second.Denominator) + (second.Numerator * Denominator), Denominator * second.Denominator);
+            result.Reduce();
+            return result;
+        }
+
+        public Fraction Subtract(Fraction second)
+        {
+            var result = new Fraction((Numerator * second.Denominator) - (second.Numerator * Denominator), Denominator * second.Denominator);
             result.Reduce();
             return result;
         }
 
         public Fraction Multiply(Fraction second)
         {
-            var result =  new Fraction(Numerator * second.Numerator, Denominator * second.Denominator);
+            var result = new Fraction(Numerator * second.Numerator, Denominator * second.Denominator);
             result.Reduce();
             return result;
         }
 
-        public override string ToString() => $"{Numerator} / {Denominator} = {(double)Numerator / Denominator}";
+        public Fraction Divide(Fraction second) => Multiply(second.Reverse());
 
-        private void Reduce() {
+        public Fraction Reverse() => new Fraction(Denominator, Numerator);
+
+        // public override string ToString() => $"{Numerator}/{Denominator} = {(double)Numerator / Denominator}";
+        public override string ToString() => $"{Numerator}/{Denominator}";
+
+        public double ToDouble() => (double)Numerator / Denominator;
+
+        private void Reduce()
+        {
             long utilGcd(long num1, long num2)
             {
                 long tmp;
                 num1 = abs(num1);
                 num2 = abs(num2);
-                while (num1 > 0) {
+                while (num1 > 0)
+                {
                     tmp = num1;
                     num1 = num2 % num1;
                     num2 = tmp;
@@ -46,7 +61,8 @@ namespace GameServerSimulation.Probability
                 return num2;
             }
 
-            long abs(long x) {
+            long abs(long x)
+            {
                 return x > 0 ? x : -x;
             }
 
@@ -54,9 +70,5 @@ namespace GameServerSimulation.Probability
             Numerator /= gcd;
             Denominator /= gcd;
         }
-    }
-
-    public static class IEnumerableFractionExt {
-        public static Fraction SumFractions(this IEnumerable<Fraction> fractions) => fractions.Aggregate(new Fraction(0, 1), (f, s) => f.Add(s));
     }
 }

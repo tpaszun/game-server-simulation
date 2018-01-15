@@ -38,6 +38,10 @@ public class Fraction {
         return String.format("%d / %d (%f)", _numerator, _denominator, (double)_numerator / _denominator);
     }
 
+    public double toDouble() {
+        return (double) _numerator / _denominator;
+    }
+
     private void reduce() {
         long gcd = MathUtils.utilGcd(_numerator, _denominator);
         _numerator /= gcd;
