@@ -98,27 +98,29 @@ public class Main {
             stats.add(new ScoreStats(score, scoreProbability.get(score), totalGames, simulationStats.get(score)));
         }
 
-        double maxError = 0;
+        DoubleSummaryStatistics errorStatistics = stats.stream()
+            .mapToDouble(ScoreStats::getError)
+            .summaryStatistics();
 
-        for(ScoreStats s: stats) {
-            maxError = s.Error > maxError ? s.Error : maxError;
-        }
-
-        System.out.format("Maximal error: %f%%", maxError);
+        System.out.format("Maximal error: %f%%\n", errorStatistics.getMax());
+        System.out.format("Minimal error: %f%%\n", errorStatistics.getMin());
+        System.out.format("Average error: %f%%\n", errorStatistics.getAverage());
     }
 }
 
 class ScoreStats {
-    public final int Score;
-    public final long SimulationCount;
-    public final long ProbableCount;
-    public final double Error;
+    private final int score;
+    private final long simulationCount;
+    private final long probableCount;
+    private final double error;
+
+    public double getError() { return error; }
 
 
     public ScoreStats(int score, Fraction probability, int totalGames, long simulationScoreCount) {
-        Score = score;
-        SimulationCount = simulationScoreCount;
-        ProbableCount = (long)probability.multiply(new Fraction(totalGames, 1)).toDouble();
-        Error = new Fraction(Math.abs(ProbableCount - SimulationCount), ProbableCount).toDouble() * 100;
+        this.score = score;
+        simulationCount = simulationScoreCount;
+        probableCount = (long)probability.multiply(new Fraction(totalGames, 1)).toDouble();
+        error = new Fraction(Math.abs(probableCount - simulationCount), probableCount).toDouble() * 100;
     }
 }

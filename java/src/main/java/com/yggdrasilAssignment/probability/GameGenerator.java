@@ -79,7 +79,7 @@ public class GameGenerator {
 
     private boolean HasExtraLife(Collection<Move> moves)
     {
-        return moves.stream().map(m -> {
+        return moves.stream().mapToInt(m -> {
            if (m instanceof RewardMove) {
                switch(((RewardMove)m).getReward()) {
                    case ExtraLife: return 1;
@@ -92,6 +92,6 @@ public class GameGenerator {
                }
            }
            return 0;
-        }).reduce(0, Integer::sum) >= 0;
+        }).sum() >= 0;
     }
 }

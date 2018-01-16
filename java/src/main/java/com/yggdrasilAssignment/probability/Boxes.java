@@ -5,7 +5,8 @@ import com.yggdrasilAssignment.Reward;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class Boxes implements Iterable<Box> {
     private List<Box> _boxes;
@@ -15,7 +16,7 @@ public class Boxes implements Iterable<Box> {
     }
 
     public Boxes(Boxes other) {
-        _boxes = other._boxes.stream().map(Box::new).collect(Collectors.toList());
+        _boxes = other._boxes.stream().map(Box::new).collect(toList());
     }
 
     public void removeBox(Reward reward) {
@@ -36,10 +37,7 @@ public class Boxes implements Iterable<Box> {
     }
 
     public int countBoxes() {
-        int count = 0;
-        for(Box box: _boxes)
-            count += box.getCount();
-        return count;
+        return _boxes.stream().mapToInt(Box::getCount).sum();
     }
 
     @Override
