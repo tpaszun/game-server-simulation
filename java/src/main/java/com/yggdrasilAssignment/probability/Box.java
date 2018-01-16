@@ -4,7 +4,7 @@ import com.yggdrasilAssignment.Reward;
 
 public class Box {
     private int _count;
-    private Reward _reward;
+    private final Reward _reward;
 
     public Box(Reward reward, int count) {
         _reward = reward;

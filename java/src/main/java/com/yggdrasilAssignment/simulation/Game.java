@@ -8,46 +8,22 @@ import com.yggdrasilAssignment.RewardExt;
 import java.security.SecureRandom;
 import java.util.*;
 
+import static java.util.Collections.*;
+
 public class Game {
-    private Queue<Reward> _boxes;
-    private Queue<AdditionalReward> _additionalRewards;
+    private final Queue<Reward> _boxes;
+    private final Queue<AdditionalReward> _additionalRewards;
+
     private boolean _gotExtraLife;
     private int _score;
 
-    public Game() {
-        List<Reward> boxes = Arrays.asList(
-                Reward.Hundred,
-                Reward.Twenty,
-                Reward.Twenty,
-                Reward.Five,
-                Reward.Five,
-                Reward.Five,
-                Reward.Five,
-                Reward.Five,
-                Reward.ExtraLife,
-                Reward.GameOver,
-                Reward.GameOver,
-                Reward.GameOver);
-        Collections.shuffle(boxes, new SecureRandom());
-        _boxes = new LinkedList<>(boxes);
-
-        List<AdditionalReward> additionalRewards = Arrays.asList(
-                AdditionalReward.Twenty,
-                AdditionalReward.Ten,
-                AdditionalReward.Five,
-                AdditionalReward.SecondChance);
-        Collections.shuffle(additionalRewards, new SecureRandom());
-        _additionalRewards = new LinkedList<>(additionalRewards);
-    }
-
     public Game(Collection<Reward> rewards, Collection<AdditionalReward> additionalRewards) {
-
         List<Reward> rewardList = new ArrayList<>(rewards);
-        Collections.shuffle(rewardList, new SecureRandom());
+        shuffle(rewardList, new SecureRandom());
         _boxes = new LinkedList<>(rewardList);
 
         List<AdditionalReward> additionalRewardList = new ArrayList<>(additionalRewards);
-        Collections.shuffle(additionalRewardList, new SecureRandom());
+        shuffle(additionalRewardList, new SecureRandom());
         _additionalRewards = new LinkedList<>(additionalRewardList);
     }
 

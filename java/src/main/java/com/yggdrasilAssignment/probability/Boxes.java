@@ -9,7 +9,7 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 
 public class Boxes implements Iterable<Box> {
-    private List<Box> _boxes;
+    private final List<Box> _boxes;
 
     public Boxes(List<Box> items) {
         _boxes = items;

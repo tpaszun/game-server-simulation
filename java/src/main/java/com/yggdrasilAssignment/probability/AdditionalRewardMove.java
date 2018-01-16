@@ -3,7 +3,7 @@ package com.yggdrasilAssignment.probability;
 import com.yggdrasilAssignment.AdditionalReward;
 
 public class AdditionalRewardMove extends Move {
-    private AdditionalReward _additionalReward;
+    private final AdditionalReward _additionalReward;
 
     public AdditionalReward getAdditionalReward() { return _additionalReward; }
 

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class GameWithProbability {
     private Fraction _probability;
-    private List<Move> _moves;
+    private final List<Move> _moves;
 
     public GameWithProbability() {
         _probability = new Fraction(1, 1);

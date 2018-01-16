@@ -4,22 +4,25 @@ import com.yggdrasilAssignment.AdditionalReward;
 import com.yggdrasilAssignment.Reward;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class SimulationDriver {
-    private int _gamesCount;
-    private Collection<Reward> _rewards;
-    private Collection<AdditionalReward> _additionalRewards;
+import static java.util.Collections.*;
 
-    private Hashtable<Integer, Long> _scoreStatistics;
+public class SimulationDriver {
+    private final int _gamesCount;
+    private final Collection<Reward> _rewards;
+    private final Collection<AdditionalReward> _additionalRewards;
+
+    private final Hashtable<Integer, Long> _scoreStatistics;
 
     public Dictionary<Integer, Long> getScoreStatistics() { return _scoreStatistics; }
 
     public SimulationDriver(int gamesCount, Collection<Reward> rewards, Collection<AdditionalReward> additionalRewards) {
         _gamesCount = gamesCount;
-        _rewards = rewards;
-        _additionalRewards = additionalRewards;
+        _rewards = unmodifiableCollection(rewards);
+        _additionalRewards = unmodifiableCollection(additionalRewards);
 
         _scoreStatistics = new Hashtable<>();
     }

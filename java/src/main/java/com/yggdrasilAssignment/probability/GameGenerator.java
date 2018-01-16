@@ -6,7 +6,7 @@ import com.yggdrasilAssignment.Reward;
 import java.util.*;
 
 public class GameGenerator {
-    private List<GameWithProbability> _games = new LinkedList<>();
+    private final List<GameWithProbability> _games = new LinkedList<>();
 
     public void Generate()
     {

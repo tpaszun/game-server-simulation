@@ -92,7 +92,7 @@ public class Main {
             }
         }
 
-        Collection<ScoreStats> stats = new ArrayList<>();
+        Collection<ScoreStats> stats = new ArrayList<>(scoreProbability.size());
 
         for(Integer score: scoreProbability.keySet()) {
             stats.add(new ScoreStats(score, scoreProbability.get(score), totalGames, simulationStats.get(score)));
